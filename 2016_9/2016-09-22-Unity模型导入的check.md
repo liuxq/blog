@@ -1,10 +1,3 @@
----
-layout: post
-title: Unity模型导入的Check
-category: 技术
-comments: true
----
-
 * 介绍：
 资源管理是Unity开发者经常遇到的问题，比如在导入模型（fbx）资源时，对于一些不需要材质的纯动作模型，如果美术没有取消勾选Import Materials选项(如下图)，就会增加包中的无用材质和贴图，造成空间浪费。
 ![dock](http://liuxq.github.io/blog/images/fbxImport1.png)

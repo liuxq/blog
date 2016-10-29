@@ -1,10 +1,3 @@
----
-layout: post
-title: Unity EditorWindow停靠实现
-category: 技术
-comments: true
----
-
 * 背景：很多自定义编辑器可能带有好多的窗口，比如一个自定义的模型编辑器，可能有模型资源选择窗口、动作编辑窗口、动作播放设置窗口等。如果这些互相有联系的窗口都各自分散的显示。会给相关的策划和美术带来很多困扰。于是最近有一个实现编辑器EditorWindow窗口布局的需求，具体要求是把一些自定义的编辑器窗口按照策划喜欢的方式停靠到一个窗口中去（如下图）。
 
 ![dock](http://liuxq.github.io/blog/images/dockDemo.png)
