@@ -1,6 +1,6 @@
 * 背景：很多自定义编辑器可能带有好多的窗口，比如一个自定义的模型编辑器，可能有模型资源选择窗口、动作编辑窗口、动作播放设置窗口等。如果这些互相有联系的窗口都各自分散的显示。会给相关的策划和美术带来很多困扰。于是最近有一个实现编辑器EditorWindow窗口布局的需求，具体要求是把一些自定义的编辑器窗口按照策划喜欢的方式停靠到一个窗口中去（如下图）。
 
-![dock](http://liuxq.github.io/blog/images/dockDemo.png)
+![dock](https://raw.githubusercontent.com/liuxq/blog/master/images/dockDemo.png)
 
 * 实现方案一：编辑器的停靠效果并没有现成的api可用，反编译unityEditor.dll找到了用反射实现的方法，主要思路就是模拟鼠标拖拽一个窗口停靠到另一个窗口的过程。代码如下：
 
@@ -29,12 +29,12 @@ public static void DockEditorWindow(EditorWindow parent, EditorWindow child)
 }
 ```
 效果如下：
-![dock](http://liuxq.github.io/blog/images/editorWindowDock.png)
+![dock](https://raw.githubusercontent.com/liuxq/blog/master/images/editorWindowDock.png)
 
 由于使用的拖拽模拟，有一些限制，比如窗口比例如果想1:1的话，需要先把第一个窗口的大小调到最小（我用的100,100），然后再停靠一个窗口时，两个窗口就会一样大，停靠之后再把窗口放大到想要的尺寸可以保持1:1的比例。
 
 * 实现方案二：方案一是使用纯代码的方式实现一个窗口停靠到另一个窗口。有很多缺陷，比如停靠的样式完全靠代码，导致如果策划想要窗口是另一个停靠样式，就需要改代码；而且一些复杂的停靠样式并不能实现，比如本文第一张图的效果。其实unity已经为我们提供了一个靠谱的自己设计停靠样式并保存的方式，如下图
-![dock](http://liuxq.github.io/blog/images/layouts.png)
+![dock](https://raw.githubusercontent.com/liuxq/blog/master/images/layouts.png)
 可以先把各个窗口拖动停靠到想要的位置，然后savelayout，下一次直接点击保存的布局就可以啦，那么保存的布局存放在哪里了呢，放在C:\Users\Administrator\AppData\Roaming\Unity\Editor-5.x\Preferences\Layouts这里啦，是一个.wlt文件，存在这里是有问题的，布局文件没有存储在unity工程下面就不会被项目组的所有人共享，而懒惰的策划是希望一次update就可以使用别人调好的布局的。所以要实现一个保存布局文件在自定义位置的功能，这个功能也是需要用反射的，unity大大并没有把现成的函数暴露出来。。。，下面是实现保存和加载自定义布局的方法：
 
 ```c
