@@ -226,14 +226,14 @@ public class BundleLoader : MonoBehaviour
 
 
  #pragma shader_feature RED GREEN BLUE<br/>
-将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，没有效果
+将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，没有效果<br/>
  #pragma multi_compile RED GREEN BLUE<br/>
 将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，可以显示绿色和蓝色<br/>
-分析：shader_feature声明变种时，打包只会打包被资源引用的keyword变种，multi_compile声明变种时，打包会把所有变种都打进去
+分析：shader_feature声明变种时，打包只会打包被资源引用的keyword变种，multi_compile声明变种时，打包会把所有变种都打进去<br/>
 
  #pragma shader_feature RED GREEN BLUE<br/>
 将选中RED关键字的prefab和shader依赖打包，加载bundle和其中的prefab，显示了异常粉红，任何变种都没有生效<br/>
-分析：shader_feature标记的shader单独依赖打包时，任何变种都不会打进去，分析原因估计是unity认为单包中shader没有被引用过
+分析：shader_feature标记的shader单独依赖打包时，任何变种都不会打进去，分析原因估计是unity认为单包中shader没有被引用过<br/>
 
 ### 总结：
 unity5中新出的shader_feature可以只将引用过的shader变种打进包里面，听起来很有用，可是大部分项目中为了节省冗余shader的内存，shader都是作为依赖包单独成一包的，此时没有任何shader变种被打进包中；更何况即使shader没有依赖打包，如果计划代码中动态修改shader的变种而不是记录在材质里面，此时也不能用shader_feature。基本上我们的项目中shader_feature可以废弃了。。。
