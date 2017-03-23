@@ -141,12 +141,12 @@ public class ColorsGUI: ShaderGUI {
 shader界面如下：
 ![dock](https://raw.githubusercontent.com/liuxq/blog/master/images/ShaderVariants/SV_2.png)
 
-这样，勾选一个颜色，就会enable一个keyword，通过查看结果颜色就能知道匹配到了哪个shader变种，实验如下：
- #pragma multi_compile RED GREEN（两个变种：RED， GREEN）
-材质keyword为RED :  显示红色（匹配RED）
-材质keyword为GREEN :  显示绿色（匹配GREEN）
-材质keyword为__ :  显示红色（匹配RED）
-材质keyword为RED GREEN:  显示红色（匹配RED）
+这样，勾选一个颜色，就会enable一个keyword，通过查看结果颜色就能知道匹配到了哪个shader变种，实验如下：<br/>
+ #pragma multi_compile RED GREEN（两个变种：RED， GREEN）<br/>
+材质keyword为RED :  显示红色（匹配RED）<br/>
+材质keyword为GREEN :  显示绿色（匹配GREEN）<br/>
+材质keyword为__ :  显示红色（匹配RED）<br/>
+材质keyword为RED GREEN:  显示红色（匹配RED）<br/>
 
 分析：当keyword存在正好匹配的变种时直接匹配、当keyword不存在匹配变种时取第一个变种
 
@@ -228,11 +228,11 @@ public class BundleLoader : MonoBehaviour
  #pragma shader_feature RED GREEN BLUE<br/>
 将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，没有效果
  #pragma multi_compile RED GREEN BLUE<br/>
-将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，可以显示绿色和蓝色
+将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，可以显示绿色和蓝色<br/>
 分析：shader_feature声明变种时，打包只会打包被资源引用的keyword变种，multi_compile声明变种时，打包会把所有变种都打进去
 
  #pragma shader_feature RED GREEN BLUE<br/>
-将选中RED关键字的prefab和shader依赖打包，加载bundle和其中的prefab，显示了异常粉红，任何变种都没有生效
+将选中RED关键字的prefab和shader依赖打包，加载bundle和其中的prefab，显示了异常粉红，任何变种都没有生效<br/>
 分析：shader_feature标记的shader单独依赖打包时，任何变种都不会打进去，分析原因估计是unity认为单包中shader没有被引用过
 
 ### 总结：
