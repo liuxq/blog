@@ -2,6 +2,7 @@
 
 ## 技术
 
+#### - [Unity5的ShaderVariants实验和总结](https://github.com/liuxq/blog/issues/10)
 #### - [地形八张纹理的可行性和消耗研究](https://github.com/liuxq/blog/issues/9)
 #### - [UnityEditorWindow停靠实现](https://github.com/liuxq/blog/issues/7)
 #### - [Unity模型导入的check](https://github.com/liuxq/blog/issues/6)
