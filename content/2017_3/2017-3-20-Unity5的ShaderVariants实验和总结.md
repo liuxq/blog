@@ -1,7 +1,7 @@
 ShaderVariants（下文用shader变种描述）是unity中用来合并组织shader的一个方式之一，在shader中的使用类似宏定义。最近项目使用shader变种的时候发现了一些坑，所以做了如下实验和总结。其中前两节是基础部分，看官方文档也可以了解，只是通过实验来加强理解。第三节shader变种的打包是重点描述的，比较重要。
 
 
-###一、生成shader变种机制：
+ ### 一、生成shader变种机制：
 
 为了做实验，制作shader如下：
 ```c
@@ -63,37 +63,37 @@ shader的变种数量可以通过shader面板上面查看到，点击Show按钮�
 
 ![dock](https://raw.githubusercontent.com/liuxq/blog/master/images/ShaderVariants/SV_1.png)
 
-做如下实验对比shader_feature：
-单一行命令
- #pragma shader_feature RED
-两个变种： __， RED
- #pragma shader_feature RED GREEN
-两个变种：RED，GREEN
- #pragma shader_feature RED GREEN BLUE
-三个变种：RED，GREEN，BLUE
+做如下实验对比shader_feature：<br/>
+单一行命令<br/>
+ #pragma shader_feature RED<br/>
+两个变种： __， RED<br/>
+ #pragma shader_feature RED GREEN<br/>
+两个变种：RED，GREEN<br/>
+ #pragma shader_feature RED GREEN BLUE<br/>
+三个变种：RED，GREEN，BLUE<br/>
+<br/>
+ #pragma multi_compile RED<br/>
+一个变种：RED<br/>
+ #pragma multi_compile RED GREEN<br/>
+两个变种：RED，GREEN<br/>
+ #pragma multi_compile RED GREEN BLUE<br/>
+三个变种：RED，GREEN，BLUE<br/>
+<br/>
+分析：shader_feature 和multi_compile 在Keyword 数量大于1时，生成变种的机制是一样的，都是一个keyword一个变种；当keyword只有1个时，shader_feature 会增加一个none变种。再来做个实验：<br/>
 
- #pragma multi_compile RED
-一个变种：RED
- #pragma multi_compile RED GREEN
-两个变种：RED，GREEN
- #pragma multi_compile RED GREEN BLUE
-三个变种：RED，GREEN，BLUE
 
-分析：shader_feature 和multi_compile 在Keyword 数量大于1时，生成变种的机制是一样的，都是一个keyword一个变种；当keyword只有1个时，shader_feature 会增加一个none变种。再来做个实验：
+ #pragma shader_feature \_ RED <br/>
+两个变种： none， RED<br/>
+可见，当shader_feature 的keyword数量是1时不论是否有__符号，都会增加一个空keyword（__），除了这个在生成变种的机制上和multi_compile都是一致的。<br/>
 
+多行命令<br/>
+ #pragma multi_compile __ RED<br/>
+ #pragma multi_compile __ GREEN<br/>
+四个变种：__，RED，GREEN，RED GREEN<br/>
+分析：多行命令就是单行命令的乘法组合，shader_feature和multi_compile除了单一keyword时是否补__之外，在多行命令中也是一致的。<br/>
 
- #pragma shader_feature \_ RED 
-两个变种： none， RED
-可见，当shader_feature 的keyword数量是1时不论是否有__符号，都会增加一个空keyword（__），除了这个在生成变种的机制上和multi_compile都是一致的。
-
-多行命令
- #pragma multi_compile __ RED
- #pragma multi_compile __ GREEN
-四个变种：__，RED，GREEN，RED GREEN
-分析：多行命令就是单行命令的乘法组合，shader_feature和multi_compile除了单一keyword时是否补__之外，在多行命令中也是一致的。
-
-###二、匹配shader变种机制
-为了实验shader变种的匹配，做一个方便定义keyword的shader界面，代码如下：
+### 二、匹配shader变种机制
+为了实验shader变种的匹配，做一个方便定义keyword的shader界面，代码如下：<br/>
 
 ```c
 public class ColorsGUI: ShaderGUI {
@@ -150,7 +150,7 @@ shader界面如下：
 
 分析：当keyword存在正好匹配的变种时直接匹配、当keyword不存在匹配变种时取第一个变种
 
-###三、shader变种打包
+### 三、shader变种打包
 打包的代码如下：
 
 ```c
@@ -225,15 +225,15 @@ public class BundleLoader : MonoBehaviour
 为了对比shader_feature 和multi_compile 以及shader依赖和非依赖打包，做如下实验：
 
 
- #pragma shader_feature RED GREEN BLUE
+ #pragma shader_feature RED GREEN BLUE<br/>
 将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，没有效果
- #pragma multi_compile RED GREEN BLUE
+ #pragma multi_compile RED GREEN BLUE<br/>
 将选中RED关键字的prefab打包，加载bundle和其中的prefab，显示了红色，此时改变此材质的keyword为GREEN或者BLUE，可以显示绿色和蓝色
 分析：shader_feature声明变种时，打包只会打包被资源引用的keyword变种，multi_compile声明变种时，打包会把所有变种都打进去
 
- #pragma shader_feature RED GREEN BLUE
+ #pragma shader_feature RED GREEN BLUE<br/>
 将选中RED关键字的prefab和shader依赖打包，加载bundle和其中的prefab，显示了异常粉红，任何变种都没有生效
 分析：shader_feature标记的shader单独依赖打包时，任何变种都不会打进去，分析原因估计是unity认为单包中shader没有被引用过
 
-###总结：
+### 总结：
 unity5中新出的shader_feature可以只将引用过的shader变种打进包里面，听起来很有用，可是大部分项目中为了节省冗余shader的内存，shader都是作为依赖包单独成一包的，此时没有任何shader变种被打进包中；更何况即使shader没有依赖打包，如果计划代码中动态修改shader的变种而不是记录在材质里面，此时也不能用shader_feature。基本上我们的项目中shader_feature可以废弃了。。。
