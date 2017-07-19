@@ -1,4 +1,6 @@
-之前做的基于kbengine的一个lua版的mmo小游戏https://github.com/liuxq/StriveGame，有同学提issue希望把插件层独立出来。于是做了逻辑和插件层的解耦，主要代码结构如下：
+之前做的基于kbengine的一个lua版的mmo小游戏https://github.com/liuxq/StriveGame
+有同学提issue希望把插件层独立出来。于是做了逻辑和插件层的解耦，主要代码结构如下：
+
 ![dock](https://raw.githubusercontent.com/liuxq/blog/master/images/kbeplugins/code.png)
 
 其中Csharp文件夹中的memoryStream, NetworkInterface, PacketReceiver, PacketSender 都是网络基础类，基本上不会改动热更，并没有lua化；Dbg, Profile, Event, 在lua层都有类似功能，暂时保留c#版本；
@@ -14,5 +16,7 @@ KBELuaUtil是lua层需要用到的一些基础函数，还有c#调用lua函数�
 ![dock](https://raw.githubusercontent.com/liuxq/blog/master/images/kbeplugins/game.png)
 
 最后附上plugins和demo的github地址:
+
 plugins: https://github.com/liuxq/kbengine_unity3d_lua_plugins
+
 demo: https://github.com/liuxq/kbengine_unity3d_tolua_demo
