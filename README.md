@@ -2,6 +2,7 @@
 
 ## 技术
 
+#### - [UI上显示模型时残留轮廓问题](https://github.com/liuxq/blog/issues/12)
 #### - [MMO服务器引擎kbengine的lua版unity客户端插件](https://github.com/liuxq/blog/issues/11)
 #### - [Unity5的ShaderVariants实验和总结](https://github.com/liuxq/blog/issues/10)
 #### - [地形八张纹理的可行性和消耗研究](https://github.com/liuxq/blog/issues/9)
